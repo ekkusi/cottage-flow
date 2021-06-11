@@ -18,7 +18,6 @@
     "start": "concurrently \"yarn --cwd frontend start\" \"yarn --cwd studio start\"",
     "stop": "bash scripts/killall.sh",
     "build": "yarn --cwd frontend build", 
-    "postinstall": "yarn studio:gen-types",
     "studio:gen-types": "yarn --cwd studio generate-types"
   }
 }
