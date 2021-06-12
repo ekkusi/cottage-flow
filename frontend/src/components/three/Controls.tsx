@@ -17,6 +17,10 @@ const Controls = forwardRef<PointerLockControls, PointerLockControlsProps>(
     );
 
     const onTouchStart = (e: TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.cancelBubble = true;
+      e.returnValue = false;
       console.log("Touch start");
       if (controls.current) {
         setIsMoving(true);
@@ -24,6 +28,10 @@ const Controls = forwardRef<PointerLockControls, PointerLockControlsProps>(
     };
 
     const onTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.cancelBubble = true;
+      e.returnValue = false;
       console.log("Touch move");
       if (controls.current) {
       }
@@ -40,6 +48,12 @@ const Controls = forwardRef<PointerLockControls, PointerLockControlsProps>(
       document.addEventListener("touchstart", onTouchStart);
       document.addEventListener("touchmove", onTouchMove);
       document.addEventListener("touchend", onTouchEnd);
+      document.addEventListener("mousedown", (e: MouseEvent) => {
+        e.preventDefault();
+      });
+      document.addEventListener("contextmenu", e => {
+        e.preventDefault();
+      });
 
       return () => {};
     });

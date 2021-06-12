@@ -85,7 +85,10 @@ const Scene = () => {
         const collision = spaceShipBox.intersectsBox(portalBox);
         if (collision) {
           const portalLink = getPortalLink(portal);
-          if (portalLink) navigate(portalLink);
+          if (portalLink) {
+            setIsMoving(false);
+            navigate(portalLink);
+          }
         }
       });
     }
