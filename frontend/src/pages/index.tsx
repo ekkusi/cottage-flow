@@ -151,33 +151,33 @@ const IndexPage = () => {
   return (
     <Layout onlySeo>
       <Box width="100%" height="100vh" bg="black">
-        <>
-          {typeof window !== "undefined" && (
+        {typeof window !== "undefined" && (
+          <>
             <Canvas camera={{ position: [0, 20, 50] }}>
               <Scene />
             </Canvas>
-          )}
-        </>
-        <Flex
-          display={isMoving || isLoadingAssets ? "none" : "flex"}
-          position="absolute"
-          top="0"
-          width="100%"
-          height="100vh"
-          alignItems="center"
-          justifyContent="center"
-          bg="rgba(0, 0, 0, 0.7)"
-        >
-          <Heading
-            as="h1"
-            textAlign="center"
-            color="white"
-            position="absolute"
-            top="100px"
-          >
-            Painaseppa näytöstä ja pistä alus liikkeelle
-          </Heading>
-        </Flex>
+            <Flex
+              display={isMoving || isLoadingAssets ? "none" : "flex"}
+              position="absolute"
+              top="0"
+              width="100%"
+              height="100vh"
+              alignItems="center"
+              justifyContent="center"
+              bg="rgba(0, 0, 0, 0.7)"
+            >
+              <Heading
+                as="h1"
+                textAlign="center"
+                color="white"
+                position="absolute"
+                top="100px"
+              >
+                Painaseppa näytöstä ja pistä alus liikkeelle
+              </Heading>
+            </Flex>
+          </>
+        )}
       </Box>
     </Layout>
   );
