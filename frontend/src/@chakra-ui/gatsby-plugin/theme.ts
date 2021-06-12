@@ -34,6 +34,12 @@ const theme: Theme = extendTheme({
       h1: {
         textTransform: "uppercase",
       },
+      p: {
+        marginBottom: "5",
+      },
+      a: {
+        textDecoration: "underline"
+      }
     }),
   },
 });

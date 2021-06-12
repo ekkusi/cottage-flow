@@ -2,8 +2,8 @@ import { ForwardedRef, MutableRefObject, useEffect, useRef } from "react";
 
 function useForwardedRef<T>(
   ...refs: ForwardedRef<any>[]
-): MutableRefObject<T | undefined> {
-  const targetRef = useRef();
+): MutableRefObject<T | null> {
+  const targetRef = useRef(null);
 
   useEffect(() => {
     refs.forEach((ref) => {

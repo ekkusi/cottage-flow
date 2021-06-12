@@ -22,6 +22,7 @@ import Loader from "../components/three/Loader";
 import { navigate } from "gatsby";
 import Portal from "../components/three/Portal";
 import { Flex, Heading } from "@chakra-ui/react";
+import Layout from "../components/Layout";
 
 const Scene = () => {
   const [isMoving, setIsMoving] = useGlobal(
@@ -61,10 +62,10 @@ const Scene = () => {
 
     switch (index) {
       case 0:
-        return "/info";
+        return "/programme";
         break;
       case 1:
-        return "/menu";
+        return "/info";
         break;
       case 2:
         return "/telegram";
@@ -136,33 +137,35 @@ const Scene = () => {
 const IndexPage = () => {
   const isMoving = useGlobal(state => state.isMoving)[0];
   return (
-    <Box width="100%" height="100vh" bg="black">
-      {typeof window !== "undefined" && (
-        <Canvas camera={{ position: [0, 20, 50] }}>
-          <Scene />
-        </Canvas>
-      )}
-      <Flex
-        display={isMoving ? "none" : "flex"}
-        position="absolute"
-        top="0"
-        width="100%"
-        height="100vh"
-        alignItems="center"
-        justifyContent="center"
-        bg="rgba(0, 0, 0, 0.7)"
-      >
-        <Heading
-          as="h1"
-          textAlign="center"
-          color="white"
+    <Layout onlySeo>
+      <Box width="100%" height="100vh" bg="black">
+        {typeof window !== "undefined" && (
+          <Canvas camera={{ position: [0, 20, 50] }}>
+            <Scene />
+          </Canvas>
+        )}
+        <Flex
+          display={isMoving ? "none" : "flex"}
           position="absolute"
-          top="100px"
+          top="0"
+          width="100%"
+          height="100vh"
+          alignItems="center"
+          justifyContent="center"
+          bg="rgba(0, 0, 0, 0.7)"
         >
-          Painaseppa näytöstä ja pistä alus liikkeelle
-        </Heading>
-      </Flex>
-    </Box>
+          <Heading
+            as="h1"
+            textAlign="center"
+            color="white"
+            position="absolute"
+            top="100px"
+          >
+            Painaseppa näytöstä ja pistä alus liikkeelle
+          </Heading>
+        </Flex>
+      </Box>
+    </Layout>
   );
 };
 

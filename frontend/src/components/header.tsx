@@ -1,22 +1,20 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import { Link } from "gatsby";
-import { Heading } from "@chakra-ui/react";
+import { Box, Heading, Text } from "@chakra-ui/react";
 
-const Header = ({ siteTitle }: any) => (
-  <header>
-    <Heading as="h1">
-      <Link to="/">{siteTitle}</Link>
+type HeaderProps = {
+  pageTitle: string;
+};
+const Header = ({ pageTitle }: HeaderProps) => (
+  <Box as="header" px="5" py={{ base: "7", md: "10" }} position="relative">
+    <Text as="span" mb={{ base: "10", md: "5" }} display="inline-block">
+      <Link to="/">🚉 Takasi pääasemalle 🚉</Link>
+    </Text>
+    <Heading as="h1" size="4xl" textAlign="center" mb={{ base: "12", md: "5" }}>
+      {pageTitle}
     </Heading>
-  </header>
+  </Box>
 );
-
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-};
-
-Header.defaultProps = {
-  siteTitle: ``,
-};
 
 export default Header;
