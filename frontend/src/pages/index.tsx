@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { Canvas, MeshProps, useFrame, useThree } from "@react-three/fiber";
 import {
+  DeviceOrientationControls,
   Html,
   PointerLockControls,
   PointerLockControlsProps,
@@ -17,11 +18,11 @@ import SpaceShip from "../components/three/SpaceShip";
 import * as THREE from "three";
 import { Box } from "@chakra-ui/layout";
 import useGlobal from "../store";
-import Controls from "../components/three/Controls";
+import Controls, { MobileControls } from "../components/three/Controls";
 import Loader from "../components/three/Loader";
 import { navigate } from "gatsby";
 import Portal from "../components/three/Portal";
-import { Flex, Heading } from "@chakra-ui/react";
+import { Flex, Heading, useMediaQuery } from "@chakra-ui/react";
 import Layout from "../components/Layout";
 
 const Scene = () => {
@@ -34,10 +35,13 @@ const Scene = () => {
     actions => actions.setIsLoadingAssets
   );
 
+  const [isMobile] = useMediaQuery("(max-width: 992px)");
+  console.log(isMobile);
+
   const { active } = useProgress();
 
   const { camera } = useThree();
-  const setControlsCb = useCallback((node: PointerLockControls) => {
+  const setPointerLockControls = useCallback((node: PointerLockControls) => {
     if (node !== null && node.addEventListener) {
       node.addEventListener("lock", () => {
         setIsMoving(true);
@@ -47,6 +51,8 @@ const Scene = () => {
       });
     }
   }, []);
+
+  const deviceOrienatationControls = useRef<DeviceOrientationControls>(null);
 
   const spaceShip = useRef<THREE.Mesh>(null);
 
@@ -109,7 +115,11 @@ const Scene = () => {
 
   return (
     <>
-      <Controls ref={setControlsCb} />
+      {isMobile ? (
+        <MobileControls ref={deviceOrienatationControls} />
+      ) : (
+        <Controls ref={setPointerLockControls} />
+      )}
       <Stars depth={500} />
       <ambientLight intensity={0.5} />
       <Suspense fallback={<Loader />}>

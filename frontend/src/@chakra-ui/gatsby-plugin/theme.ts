@@ -41,10 +41,9 @@ const theme: Theme = extendTheme({
         textDecoration: "underline"
       },
       "*": {
-        "-webkit-touch-callout": "none !important", 
-        "-webkit-user-select": "none !important",
+        WebKitTouchCallout: "none",
+        WebkitUserSelect: "none",
         userSelect: "none",
-        touchAction: "none"
       }
     }),
   },
