@@ -9,7 +9,7 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import { useStaticQuery, graphql } from "gatsby";
 
-import Header from "./header1";
+import Header from "./Header";
 import "./layout.css";
 import { Box, Container, Flex } from "@chakra-ui/react";
 import Seo from "./seo1";
