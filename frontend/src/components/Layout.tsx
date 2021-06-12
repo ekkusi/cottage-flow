@@ -12,7 +12,7 @@ import { useStaticQuery, graphql } from "gatsby";
 import Header from "./Header";
 import "./layout.css";
 import { Box, Container, Flex } from "@chakra-ui/react";
-import Seo from "./seo1";
+import Seo from "./Seo";
 import Footer from "./Footer";
 
 type LayoutProps = {

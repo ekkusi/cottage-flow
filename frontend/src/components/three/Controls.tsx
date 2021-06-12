@@ -12,28 +12,34 @@ const Controls = forwardRef<PointerLockControls, PointerLockControlsProps>(
     const controls = useForwardedRef<PointerLockControls>(ref);
 
     const onTouchStart = (e: TouchEvent) => {
-      console.log("Touch start")
-    }
-    
+      console.log("Touch start");
+      if (controls.current && controls.current.lock) {
+        controls.current.lock();
+      }
+    };
+
     const onTouchMove = (e: TouchEvent) => {
-      console.log("Touch move")
-    }
+      console.log("Touch move");
+    };
 
     const onTouchEnd = (e: TouchEvent) => {
-      console.log("Touch end")
-    }
+      console.log("Touch end");
+      if (controls.current && controls.current.unlock) {
+        controls.current.unlock();
+      }
+    };
 
     useEffect(() => {
       document.addEventListener("touchstart", onTouchStart);
       document.addEventListener("touchmove", onTouchMove);
       document.addEventListener("touchend", onTouchEnd);
 
-      return () => {
+      return () => {};
+    });
 
-      }  
-    })
-
-    return <PointerLockControls {...props} ref={controls} camera={three.camera} />;
+    return (
+      <PointerLockControls {...props} ref={controls} camera={three.camera} />
+    );
   }
 );
 
