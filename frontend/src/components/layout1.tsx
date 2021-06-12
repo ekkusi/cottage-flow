@@ -9,10 +9,10 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import { useStaticQuery, graphql } from "gatsby";
 
-import Header from "./Header";
+import Header from "./header1";
 import "./layout.css";
 import { Box, Container, Flex } from "@chakra-ui/react";
-import Seo from "./Seo";
+import Seo from "./seo1";
 import Footer from "./Footer";
 
 type LayoutProps = {
