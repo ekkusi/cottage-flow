@@ -41,8 +41,6 @@ const Controls = forwardRef<PointerLockControls, PointerLockControlsProps>(
       document.addEventListener("touchmove", onTouchMove);
       document.addEventListener("touchend", onTouchEnd);
 
-      console.log(controls.current);
-
       return () => {};
     });
 

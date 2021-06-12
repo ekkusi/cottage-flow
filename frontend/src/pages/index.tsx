@@ -11,6 +11,7 @@ import {
   PointerLockControls,
   PointerLockControlsProps,
   Stars,
+  useProgress,
 } from "@react-three/drei";
 import SpaceShip from "../components/three/SpaceShip";
 import * as THREE from "three";
@@ -28,6 +29,13 @@ const Scene = () => {
     state => state.isMoving,
     actions => actions.setIsMoving
   );
+  const [isLoadingAssets, setIsLoadingAssets] = useGlobal(
+    state => state.isLoadingAssets,
+    actions => actions.setIsLoadingAssets
+  );
+
+  const { active } = useProgress();
+
   const { camera } = useThree();
   const setControlsCb = useCallback((node: PointerLockControls) => {
     if (node !== null && node.addEventListener) {
@@ -60,13 +68,10 @@ const Scene = () => {
     switch (index) {
       case 0:
         return "/programme";
-        break;
       case 1:
         return "/info";
-        break;
       case 2:
         return "/telegram";
-        break;
       default:
         return "/info";
     }
@@ -89,6 +94,15 @@ const Scene = () => {
       camera.translateZ(-1);
     }
   });
+
+  useEffect(() => {
+    if (!isLoadingAssets && active) {
+      setIsLoadingAssets(true);
+    }
+    if (isLoadingAssets && !active) {
+      setIsLoadingAssets(false);
+    }
+  }, [active, isLoadingAssets]);
 
   return (
     <>

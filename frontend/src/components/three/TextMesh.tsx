@@ -29,8 +29,6 @@ const TextMesh = forwardRef<THREE.Mesh, TextMeshProps>(
         setLoading(true);
         useFont({ url: fontUrl })
           .then(font => {
-            console.log("Font loaded succesfulyy");
-
             setFont(font);
           })
           .finally(() => setLoading(false));
