@@ -3,7 +3,7 @@ import {
   PointerLockControls,
   PointerLockControlsProps,
 } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
+import { extend, useFrame, useThree } from "@react-three/fiber";
 import React, { forwardRef, useEffect } from "react";
 import * as THREE from "three";
 import useForwardedRef from "../../hooks/useForwardedRef";
@@ -59,13 +59,15 @@ export const MobileControls = forwardRef<DeviceOrientationControls>(
         e.preventDefault();
       });
 
+      if (controls.current?.connect) {
+        controls.current.connect();
+      }
+
       return () => {};
     });
 
     console.log("Rendering deviceorienatation controls");
-    return (
-      <DeviceOrientationControls {...props} ref={controls} camera={camera} />
-    );
+    return <DeviceOrientationControls {...props} ref={controls} />;
   }
 );
 
