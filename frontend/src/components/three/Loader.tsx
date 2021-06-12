@@ -8,7 +8,7 @@ type LoaderProps = {};
 const Loader = (props: LoaderProps): JSX.Element => {
   const { active, progress, errors, item, loaded, total } = useProgress();
 
-  return <Html center>{progress} % loaded</Html>;
+  return <Html center>{progress.toFixed(2)}% ladattu</Html>;
 };
 
 export default Loader;
