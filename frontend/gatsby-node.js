@@ -15,6 +15,10 @@ exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
             test: /three/,
             use: loaders.null(),
           },
+          {
+            test: /@react-three\/drei/,
+            use: loaders.null(),
+          },
         ],
       },
     });
