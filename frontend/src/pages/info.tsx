@@ -14,7 +14,7 @@ const InfoSubtitle: React.FC = ({ children }) => (
 
 const InfoPage = () => (
   <Layout title="Cottage Flow">
-    <Text>Etkö päässyt Naamoille tänäkään vuonna?</Text>
+    <Text>Etkö saanu lippua Naamoille tänäkään vuonna?</Text>
     <Text>
       Ei se mitään! Kesän vähintäänkin toiseksi parhaat vaihtoehtoiset festarit
       ovat täällä!

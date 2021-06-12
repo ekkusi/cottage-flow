@@ -47,7 +47,6 @@ const Scene = () => {
   const setPortal = useCallback(
     (node: THREE.Mesh) => {
       if (node !== null && !portals.includes(node)) {
-        console.log("pushing to portals");
         portals.push(node);
       }
     },
@@ -56,7 +55,6 @@ const Scene = () => {
 
   const getPortalLink = (portal: THREE.Mesh) => {
     const index = portals.findIndex(it => portal === it);
-    console.log(index);
 
     if (index < 0) return null;
 
@@ -82,7 +80,6 @@ const Scene = () => {
         const portalBox = new THREE.Box3().setFromObject(portal);
         const collision = spaceShipBox.intersectsBox(portalBox);
         if (collision) {
-          console.log("Spaceship colliding with portal!", portal);
           const portalLink = getPortalLink(portal);
           if (portalLink) navigate(portalLink);
         }
@@ -90,8 +87,6 @@ const Scene = () => {
     }
 
     if (isMoving) {
-      console.log("Moving camera");
-
       camera.translateZ(-1);
     }
   });
@@ -136,6 +131,7 @@ const Scene = () => {
 
 const IndexPage = () => {
   const isMoving = useGlobal(state => state.isMoving)[0];
+  const { active: loadingAssets } = useProgress();
   return (
     <Layout onlySeo>
       <Box width="100%" height="100vh" bg="black">
@@ -145,7 +141,7 @@ const IndexPage = () => {
           </Canvas>
         )}
         <Flex
-          display={isMoving ? "none" : "flex"}
+          display={isMoving || loadingAssets ? "none" : "flex"}
           position="absolute"
           top="0"
           width="100%"

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Link } from "gatsby";
 
-import Layout from "../components/Layout";
 import { Heading, Text } from "@chakra-ui/react";
+import Layout from "../components/Layout";
 import Section from "../components/Section";
 
 const ProgrammePage = () => (
