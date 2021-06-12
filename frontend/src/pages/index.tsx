@@ -151,11 +151,13 @@ const IndexPage = () => {
   return (
     <Layout onlySeo>
       <Box width="100%" height="100vh" bg="black">
-        {typeof window !== "undefined" && (
-          <Canvas camera={{ position: [0, 20, 50] }}>
-            <Scene />
-          </Canvas>
-        )}
+        <>
+          {typeof window !== "undefined" && (
+            <Canvas camera={{ position: [0, 20, 50] }}>
+              <Scene />
+            </Canvas>
+          )}
+        </>
         <Flex
           display={isMoving || isLoadingAssets ? "none" : "flex"}
           position="absolute"
