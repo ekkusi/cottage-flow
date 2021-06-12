@@ -47,6 +47,7 @@
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "start": "npm run develop",
+    "start-local": "gatsby develop -H $(ipconfig getifaddr en0) -p 8000",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "stop": "kill -9 $(lsof -t -i:8000)",

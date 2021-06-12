@@ -11,7 +11,6 @@ import {
   PointerLockControls,
   PointerLockControlsProps,
   Stars,
-  useProgress,
 } from "@react-three/drei";
 import SpaceShip from "../components/three/SpaceShip";
 import * as THREE from "three";
@@ -131,7 +130,7 @@ const Scene = () => {
 
 const IndexPage = () => {
   const isMoving = useGlobal(state => state.isMoving)[0];
-  const { active: loadingAssets } = useProgress();
+  const isLoadingAssets = useGlobal(state => state.isLoadingAssets)[0];
   return (
     <Layout onlySeo>
       <Box width="100%" height="100vh" bg="black">
@@ -141,7 +140,7 @@ const IndexPage = () => {
           </Canvas>
         )}
         <Flex
-          display={isMoving || loadingAssets ? "none" : "flex"}
+          display={isMoving || isLoadingAssets ? "none" : "flex"}
           position="absolute"
           top="0"
           width="100%"
