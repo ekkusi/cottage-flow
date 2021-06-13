@@ -12,7 +12,7 @@ import SpaceShip from "../components/three/SpaceShip";
 import * as THREE from "three";
 import { Box } from "@chakra-ui/layout";
 import useGlobal from "../store";
-import Controls, { MobileControls } from "../components/three/Controls";
+import { OrbitControls } from "../components/three/Controls";
 import Loader from "../components/three/Loader";
 import { navigate } from "gatsby";
 import Portal from "../components/three/Portal";
@@ -108,8 +108,8 @@ const Scene = () => {
 
     if (isMoving) {
       camera.translateZ(-2);
-      // Update orbit camera target to fix weird rotate. Only on mobile
-      if (isMobile && state.clock.elapsedTime > cameraTargetChangeCounter) {
+      // Update orbit camera target to fix weird rotate
+      if (state.clock.elapsedTime > cameraTargetChangeCounter) {
         setCameraTargetChangeCounter(Math.floor(state.clock.elapsedTime) + 1);
         const newCamera = camera.clone();
         newCamera.translateZ(-targetFromBase);
@@ -121,20 +121,6 @@ const Scene = () => {
       }
     }
   });
-
-  // useFrame(state => {
-  //   if (isMoving) {
-  //     if (state.clock.elapsedTime > cameraTargetChangeCounter) {
-  //       setCameraTargetChangeCounter(Math.floor(state.clock.elapsedTime) + 1);
-  //       console.log("Doing heavy stuff");
-  //       const newCamera = camera.clone();
-  //       newCamera.translateZ(-100);
-  //       const { position } = newCamera;
-  //       // const newCameraTarget = camera.position.clone();
-  //       setCameraTarget(new THREE.Vector3(position.x, position.y, position.z));
-  //     }
-  //   }
-  // }, 50);
 
   useEffect(() => {
     if (!isLoadingAssets && active) {
@@ -148,19 +134,19 @@ const Scene = () => {
 
   return (
     <>
-      {isMobile ? (
+      {/* {isMobile ? (
         <MobileControls ref={orbitControls} target={cameraTarget} />
       ) : (
         <Controls ref={setPointerLockControls} />
-      )}
+      )} */}
+      <OrbitControls ref={orbitControls} target={cameraTarget} />
       <Stars depth={300} />
       <ambientLight intensity={0.5} />
       <Suspense fallback={<Loader />}>
         <SpaceShip
           ref={spaceShip}
-          scale={2}
+          scale={isMobile ? 1.5 : 1.5}
           rotation={[0, -Math.PI / 2, -Math.PI / 24]}
-          // position={[0, -20, 1200]}
         />
         <Portal
           ref={setPortal}
@@ -216,9 +202,10 @@ const IndexPage = () => {
                 textAlign="center"
                 color="white"
                 position="absolute"
+                fontSize={{ base: "2xl", md: "4xl" }}
                 top="100px"
               >
-                Painaseppa näytöstä ja pistä alus liikkeelle
+                Painase näytöstä ja liiku vetelemeällä
               </Heading>
             </Flex>
           </>

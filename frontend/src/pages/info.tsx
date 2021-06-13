@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "gatsby";
-import { Box, Heading, Text, Image } from "@chakra-ui/react";
+import { Box, Heading, Text, Image, Progress } from "@chakra-ui/react";
 import { StaticImage } from "gatsby-plugin-image";
 
 import Layout from "../components/Layout";
@@ -28,6 +28,13 @@ const InfoPage = () => (
       <Heading as="h2" mb="7">
         9.7.- 11.7.
       </Heading>
+      <Progress
+        value={50}
+        height="50px"
+        width="200px"
+        colorScheme="cyan"
+        mb="5"
+      />
       <InfoSubtitle>Missä?</InfoSubtitle>
       <Box mb="3">
         <StaticImage

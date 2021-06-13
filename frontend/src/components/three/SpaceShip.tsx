@@ -21,9 +21,9 @@ const SpaceShip = forwardRef<THREE.Mesh, SpaceShipProps>(
         spaceShip.position.copy(camera.position);
         spaceShip.updateMatrix();
         spaceShip.translateZ(-50);
+        spaceShip.translateY(-10);
         spaceShip.rotateY(-Math.PI / 2);
         spaceShip.rotateZ(-Math.PI / 12);
-        // new THREE.Box3().setFromObject(spaceShip);
       }
     });
     return (
