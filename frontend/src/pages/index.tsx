@@ -5,22 +5,8 @@ import React, {
   useRef,
   useState,
 } from "react";
-import {
-  Canvas,
-  MeshProps,
-  ReactThreeFiber,
-  useFrame,
-  useThree,
-} from "@react-three/fiber";
-import {
-  DeviceOrientationControls,
-  Html,
-  OrbitControls,
-  PointerLockControls,
-  PointerLockControlsProps,
-  Stars,
-  useProgress,
-} from "@react-three/drei";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { PointerLockControls, Stars, useProgress } from "@react-three/drei";
 import { OrbitControls as OrbitControlsType } from "three-stdlib";
 import SpaceShip from "../components/three/SpaceShip";
 import * as THREE from "three";
@@ -33,8 +19,7 @@ import Portal from "../components/three/Portal";
 import { Flex, Heading, useMediaQuery } from "@chakra-ui/react";
 import Layout from "../components/Layout";
 
-// type OrbitControlsType = ReactThreeFiber.Object3DNode<OrbitControlsImpl, typeof OrbitControlsImpl>
-
+// Needs to start from atleast 10 z to show html in center
 const cameraBasePosition = new THREE.Vector3(0, 0, 10);
 const targetFromBase = 200;
 
