@@ -5,15 +5,23 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Canvas, MeshProps, useFrame, useThree } from "@react-three/fiber";
+import {
+  Canvas,
+  MeshProps,
+  ReactThreeFiber,
+  useFrame,
+  useThree,
+} from "@react-three/fiber";
 import {
   DeviceOrientationControls,
   Html,
+  OrbitControls,
   PointerLockControls,
   PointerLockControlsProps,
   Stars,
   useProgress,
 } from "@react-three/drei";
+import { OrbitControls as OrbitControlsType } from "three-stdlib";
 import SpaceShip from "../components/three/SpaceShip";
 import * as THREE from "three";
 import { Box } from "@chakra-ui/layout";
@@ -25,6 +33,11 @@ import Portal from "../components/three/Portal";
 import { Flex, Heading, useMediaQuery } from "@chakra-ui/react";
 import Layout from "../components/Layout";
 
+// type OrbitControlsType = ReactThreeFiber.Object3DNode<OrbitControlsImpl, typeof OrbitControlsImpl>
+
+const cameraBasePosition = new THREE.Vector3(0, 0, 0);
+const targetFromBase = 200;
+
 const Scene = () => {
   const [isMoving, setIsMoving] = useGlobal(
     state => state.isMoving,
@@ -35,8 +48,17 @@ const Scene = () => {
     actions => actions.setIsLoadingAssets
   );
 
+  const [cameraTargetChangeCounter, setCameraTargetChangeCounter] = useState(0);
+
+  const [cameraTarget, setCameraTarget] = useState<THREE.Vector3>(
+    new THREE.Vector3(
+      cameraBasePosition.x,
+      cameraBasePosition.y,
+      cameraBasePosition.z - targetFromBase
+    )
+  );
+
   const [isMobile] = useMediaQuery("(max-width: 992px)");
-  console.log(isMobile);
 
   const { active } = useProgress();
 
@@ -52,7 +74,7 @@ const Scene = () => {
     }
   }, []);
 
-  const deviceOrienatationControls = useRef<DeviceOrientationControls>(null);
+  const orbitControls = useRef<OrbitControlsType>(null);
 
   const spaceShip = useRef<THREE.Mesh>(null);
 
@@ -83,7 +105,7 @@ const Scene = () => {
     }
   };
 
-  useFrame(() => {
+  useFrame(state => {
     if (spaceShip.current) {
       const spaceShipBox = new THREE.Box3().setFromObject(spaceShip.current);
       portals.forEach(portal => {
@@ -100,9 +122,33 @@ const Scene = () => {
     }
 
     if (isMoving) {
-      camera.translateZ(-1);
+      camera.translateZ(-2);
+      if (state.clock.elapsedTime > cameraTargetChangeCounter) {
+        setCameraTargetChangeCounter(Math.floor(state.clock.elapsedTime) + 1);
+        const newCamera = camera.clone();
+        newCamera.translateZ(-targetFromBase);
+        const { position } = newCamera;
+        setCameraTarget(new THREE.Vector3(position.x, position.y, position.z));
+      }
+      if (orbitControls.current) {
+        orbitControls.current.update();
+      }
     }
   });
+
+  // useFrame(state => {
+  //   if (isMoving) {
+  //     if (state.clock.elapsedTime > cameraTargetChangeCounter) {
+  //       setCameraTargetChangeCounter(Math.floor(state.clock.elapsedTime) + 1);
+  //       console.log("Doing heavy stuff");
+  //       const newCamera = camera.clone();
+  //       newCamera.translateZ(-100);
+  //       const { position } = newCamera;
+  //       // const newCameraTarget = camera.position.clone();
+  //       setCameraTarget(new THREE.Vector3(position.x, position.y, position.z));
+  //     }
+  //   }
+  // }, 50);
 
   useEffect(() => {
     if (!isLoadingAssets && active) {
@@ -111,43 +157,44 @@ const Scene = () => {
     if (isLoadingAssets && !active) {
       setIsLoadingAssets(false);
     }
+    // camera.lookAt(new THREE.Vector3(0, 0, cameraBasePosition.z - 100));
   }, [active, isLoadingAssets]);
 
   return (
     <>
       {isMobile ? (
-        <MobileControls ref={deviceOrienatationControls} />
+        <MobileControls ref={orbitControls} target={cameraTarget} />
       ) : (
         <Controls ref={setPointerLockControls} />
       )}
-      <Stars depth={500} />
+      <Stars depth={300} />
       <ambientLight intensity={0.5} />
       <Suspense fallback={<Loader />}>
         <SpaceShip
           ref={spaceShip}
           scale={2}
           rotation={[0, -Math.PI / 2, -Math.PI / 24]}
-          // position={[0, -20, 0]}
+          // position={[0, -20, 1200]}
         />
         <Portal
           ref={setPortal}
           title="Ohjelma"
           scale={10}
-          position={[300, -50, -300]}
+          position={[300, 0, cameraBasePosition.z - 300]}
           rotation={[0, Math.PI / 4, 0]}
         />
         <Portal
           ref={setPortal}
           title="Info"
           scale={10}
-          position={[0, -50, -350]}
+          position={[0, 0, cameraBasePosition.z - 350]}
           rotation={[0, Math.PI / 2, 0]}
         />
         <Portal
           ref={setPortal}
           title="Telegram"
           scale={10}
-          position={[-300, -50, -300]}
+          position={[-300, 0, cameraBasePosition.z - 300]}
           rotation={[0, -Math.PI / 4, 0]}
         />
       </Suspense>
@@ -163,7 +210,9 @@ const IndexPage = () => {
       <Box width="100%" height="100vh" bg="black">
         {typeof window !== "undefined" && (
           <>
-            <Canvas camera={{ position: [0, 20, 50] }}>
+            <Canvas
+              camera={{ position: cameraBasePosition, rotation: [0, 0, 0] }}
+            >
               <Scene />
             </Canvas>
             <Flex
