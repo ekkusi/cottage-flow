@@ -123,7 +123,8 @@ const Scene = () => {
 
     if (isMoving) {
       camera.translateZ(-2);
-      if (state.clock.elapsedTime > cameraTargetChangeCounter) {
+      // Update orbit camera target to fix weird rotate. Only on mobile
+      if (isMobile && state.clock.elapsedTime > cameraTargetChangeCounter) {
         setCameraTargetChangeCounter(Math.floor(state.clock.elapsedTime) + 1);
         const newCamera = camera.clone();
         newCamera.translateZ(-targetFromBase);
