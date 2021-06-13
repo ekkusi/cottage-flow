@@ -3,6 +3,7 @@ import {
   OrbitControlsProps,
   PointerLockControls as PointerLockControlsImpl,
   PointerLockControlsProps,
+  useProgress,
 } from "@react-three/drei";
 import { OrbitControls as OrbitControlsType } from "three-stdlib";
 import { extend, useFrame, useThree } from "@react-three/fiber";
@@ -19,6 +20,8 @@ export const OrbitControls = forwardRef<OrbitControlsType, OrbitControlsProps>(
       state => state.isMoving,
       actions => actions.setIsMoving
     );
+
+    const { active } = useProgress();
     const onStart = () => {
       if (controls.current && !isMoving) {
         setIsMoving(true);
@@ -26,10 +29,10 @@ export const OrbitControls = forwardRef<OrbitControlsType, OrbitControlsProps>(
     };
 
     useEffect(() => {
-      console.log("Adding event listeners");
-
-      document.addEventListener("touchstart", onStart);
-      document.addEventListener("click", onStart);
+      if (!active) {
+        document.addEventListener("touchstart", onStart);
+        document.addEventListener("click", onStart);
+      }
 
       return () => {
         document.removeEventListener("touchstart", onStart);
