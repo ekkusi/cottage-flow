@@ -20,6 +20,8 @@ import { Flex, Heading, useMediaQuery } from "@chakra-ui/react";
 import Layout from "../components/Layout";
 
 // Needs to start from atleast 10 z to show html in center
+const cameraBasePosition: [number, number, number] = [0, 0, 10];
+const targetFromBase = 200;
 
 const Scene = () => {
   const [isMoving, setIsMoving] = useGlobal(
@@ -33,14 +35,11 @@ const Scene = () => {
 
   const [cameraTargetChangeCounter, setCameraTargetChangeCounter] = useState(0);
 
-  const cameraBasePosition = new THREE.Vector3(0, 0, 10);
-  const targetFromBase = 200;
-
   const [cameraTarget, setCameraTarget] = useState<THREE.Vector3>(
     new THREE.Vector3(
-      cameraBasePosition.x,
-      cameraBasePosition.y,
-      cameraBasePosition.z - targetFromBase
+      cameraBasePosition[0],
+      cameraBasePosition[1],
+      cameraBasePosition[2] - targetFromBase
     )
   );
 
@@ -167,21 +166,21 @@ const Scene = () => {
           ref={setPortal}
           title="Ohjelma"
           scale={10}
-          position={[300, 0, cameraBasePosition.z - 300]}
+          position={[300, 0, cameraBasePosition[2] - 300]}
           rotation={[0, Math.PI / 4, 0]}
         />
         <Portal
           ref={setPortal}
           title="Info"
           scale={10}
-          position={[0, 0, cameraBasePosition.z - 350]}
+          position={[0, 0, cameraBasePosition[2] - 350]}
           rotation={[0, Math.PI / 2, 0]}
         />
         <Portal
           ref={setPortal}
           title="Telegram"
           scale={10}
-          position={[-300, 0, cameraBasePosition.z - 300]}
+          position={[-300, 0, cameraBasePosition[2] - 300]}
           rotation={[0, -Math.PI / 4, 0]}
         />
       </Suspense>
