@@ -6,6 +6,7 @@ import { GlobalState, ActionTypes } from "./types";
 const initialState: GlobalState = {
   isMoving: false,
   isLoadingAssets: true,
+  isNavigating: false,
 };
 
 const useGlobal = globalHook<GlobalState, ActionTypes>(

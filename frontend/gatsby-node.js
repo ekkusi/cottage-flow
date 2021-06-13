@@ -7,7 +7,6 @@
 // You can delete this file if you're not using it
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
   if (stage === "build-html" || stage === "develop-html") {
-    console.log("Developing in stage: ", stage);
     actions.setWebpackConfig({
       module: {
         rules: [

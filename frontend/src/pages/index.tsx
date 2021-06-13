@@ -32,6 +32,10 @@ const Scene = () => {
     state => state.isLoadingAssets,
     actions => actions.setIsLoadingAssets
   );
+  const [isNavigating, setIsNavigating] = useGlobal(
+    state => state.isNavigating,
+    actions => actions.setIsNavigating
+  );
 
   const [cameraTargetChangeCounter, setCameraTargetChangeCounter] = useState(0);
 
@@ -99,8 +103,12 @@ const Scene = () => {
         if (collision) {
           const portalLink = getPortalLink(portal);
           if (portalLink) {
+            setIsNavigating(true);
             setIsMoving(false);
-            navigate(portalLink);
+            setTimeout(() => {
+              setIsNavigating(false);
+              navigate(portalLink);
+            }, 1000);
           }
         }
       });
@@ -119,6 +127,10 @@ const Scene = () => {
       if (orbitControls.current) {
         orbitControls.current.update();
       }
+    }
+
+    if (isNavigating && spaceShip.current) {
+      spaceShip.current.translateX(-5);
     }
   });
 
@@ -177,6 +189,7 @@ const Scene = () => {
 const IndexPage = () => {
   const isMoving = useGlobal(state => state.isMoving)[0];
   const isLoadingAssets = useGlobal(state => state.isLoadingAssets)[0];
+  const isNavigating = useGlobal(state => state.isNavigating)[0];
   return (
     <Layout onlySeo>
       <Box width="100%" height="100vh" bg="black">
@@ -188,7 +201,9 @@ const IndexPage = () => {
               <Scene />
             </Canvas>
             <Flex
-              display={isMoving || isLoadingAssets ? "none" : "flex"}
+              display={
+                isMoving || isLoadingAssets || isNavigating ? "none" : "flex"
+              }
               position="absolute"
               top="0"
               width="100%"
