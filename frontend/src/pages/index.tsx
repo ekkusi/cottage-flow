@@ -35,7 +35,7 @@ import Layout from "../components/Layout";
 
 // type OrbitControlsType = ReactThreeFiber.Object3DNode<OrbitControlsImpl, typeof OrbitControlsImpl>
 
-const cameraBasePosition = new THREE.Vector3(0, 0, 0);
+const cameraBasePosition = new THREE.Vector3(0, 0, 10);
 const targetFromBase = 200;
 
 const Scene = () => {
