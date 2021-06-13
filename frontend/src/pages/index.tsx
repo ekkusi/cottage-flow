@@ -20,8 +20,6 @@ import { Flex, Heading, useMediaQuery } from "@chakra-ui/react";
 import Layout from "../components/Layout";
 
 // Needs to start from atleast 10 z to show html in center
-const cameraBasePosition = new THREE.Vector3(0, 0, 10);
-const targetFromBase = 200;
 
 const Scene = () => {
   const [isMoving, setIsMoving] = useGlobal(
@@ -34,6 +32,9 @@ const Scene = () => {
   );
 
   const [cameraTargetChangeCounter, setCameraTargetChangeCounter] = useState(0);
+
+  const cameraBasePosition = new THREE.Vector3(0, 0, 10);
+  const targetFromBase = 200;
 
   const [cameraTarget, setCameraTarget] = useState<THREE.Vector3>(
     new THREE.Vector3(
