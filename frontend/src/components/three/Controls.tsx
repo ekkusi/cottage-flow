@@ -20,6 +20,7 @@ export const OrbitControls = forwardRef<OrbitControlsType, OrbitControlsProps>(
       state => state.isMoving,
       actions => actions.setIsMoving
     );
+    const isNavigatingIn = useGlobal(state => state.isNavigatingIn)[0];
 
     const { active } = useProgress();
     const onStart = () => {
@@ -29,7 +30,7 @@ export const OrbitControls = forwardRef<OrbitControlsType, OrbitControlsProps>(
     };
 
     useEffect(() => {
-      if (!active) {
+      if (!active && !isNavigatingIn) {
         document.addEventListener("touchstart", onStart);
         document.addEventListener("click", onStart);
       }

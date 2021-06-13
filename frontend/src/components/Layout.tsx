@@ -8,12 +8,16 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import { useStaticQuery, graphql } from "gatsby";
+import { globalHistory } from "@reach/router";
 
 import Header from "./Header";
 import "./layout.css";
 import { Box, Container, Flex } from "@chakra-ui/react";
 import Seo from "./Seo";
 import Footer from "./Footer";
+import { useEffect } from "react";
+import useGlobal from "../store";
+import actions from "../store/actions";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -22,6 +26,15 @@ type LayoutProps = {
 };
 
 const Layout = ({ title, onlySeo = false, children }: LayoutProps) => {
+  const setIsNavigatingOut = useGlobal(
+    () => {},
+    actions => actions.setIsNavigatingOut
+  )[1];
+  const setIsNavigatingIn = useGlobal(
+    () => {},
+    actions => actions.setIsNavigatingIn
+  )[1];
+
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
@@ -33,6 +46,20 @@ const Layout = ({ title, onlySeo = false, children }: LayoutProps) => {
   `);
 
   const siteTitle = data.site.siteMetadata?.title || "Title";
+
+  useEffect(() => {
+    return globalHistory.listen(({ action, location }) => {
+      if (action === "PUSH") {
+        if (location.pathname === "/") {
+          console.log("Navigating to home");
+          setIsNavigatingIn(true);
+        } else {
+          console.log("Navigating out of home");
+          setIsNavigatingOut(false);
+        }
+      }
+    });
+  }, [setIsNavigatingIn, setIsNavigatingOut]);
 
   return (
     <>

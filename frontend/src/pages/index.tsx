@@ -5,7 +5,13 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import {
+  Camera,
+  Canvas,
+  RootState,
+  useFrame,
+  useThree,
+} from "@react-three/fiber";
 import { PointerLockControls, Stars, useProgress } from "@react-three/drei";
 import { OrbitControls as OrbitControlsType } from "three-stdlib";
 import SpaceShip from "../components/three/SpaceShip";
@@ -18,24 +24,32 @@ import { navigate } from "gatsby";
 import Portal from "../components/three/Portal";
 import { Flex, Heading, useMediaQuery } from "@chakra-ui/react";
 import Layout from "../components/Layout";
+import TextMesh from "../components/three/TextMesh";
 
 // Needs to start from atleast 10 z to show html in center
 const cameraBasePosition: [number, number, number] = [0, 0, 10];
 const targetFromBase = 200;
 
 const Scene = () => {
-  const [isMoving, setIsMoving] = useGlobal(
-    state => state.isMoving,
-    actions => actions.setIsMoving
-  );
-  const [isLoadingAssets, setIsLoadingAssets] = useGlobal(
-    state => state.isLoadingAssets,
-    actions => actions.setIsLoadingAssets
-  );
-  const [isNavigating, setIsNavigating] = useGlobal(
-    state => state.isNavigating,
-    actions => actions.setIsNavigating
-  );
+  // const [isMoving, setIsMoving] = useGlobal(
+  //   state => state.isMoving,
+  //   actions => actions.setIsMoving
+  // );
+  // const [isLoadingAssets, setIsLoadingAssets] = useGlobal(
+  //   state => state.isLoadingAssets,
+  //   actions => actions.setIsLoadingAssets
+  // );
+  // const [isNavigatingOut, setIsNavigatingOut] = useGlobal(
+  //   state => state.isNavigatingOut,
+  //   actions => actions.setIsNavigatingOut
+  // );
+  // const [isNavigatingIn, setIsNavigatingIn] = useGlobal(
+  //   state => state.isNavigatingIn,
+  //   actions => actions.isNavigatingIn
+  // );
+
+  const [state, actions] = useGlobal();
+  const [initialSpaceShipPosSet, setInitialSpaceShipPosSet] = useState(false);
 
   const [cameraTargetChangeCounter, setCameraTargetChangeCounter] = useState(0);
 
@@ -55,23 +69,31 @@ const Scene = () => {
   const setPointerLockControls = useCallback((node: PointerLockControls) => {
     if (node !== null && node.addEventListener) {
       node.addEventListener("lock", () => {
-        setIsMoving(true);
+        actions.setIsMoving(true);
       });
       node.addEventListener("unlock", () => {
-        setIsMoving(false);
+        actions.setIsMoving(false);
       });
     }
   }, []);
 
   const orbitControls = useRef<OrbitControlsType>(null);
 
-  const spaceShip = useRef<THREE.Mesh>(null);
+  const spaceShipRef = useRef<THREE.Mesh>(null);
 
   const portals: THREE.Mesh[] = [];
   const setPortal = useCallback(
     (node: THREE.Mesh) => {
       if (node !== null && !portals.includes(node)) {
         portals.push(node);
+      }
+    },
+    [portals]
+  );
+  const setMainText = useCallback(
+    (node: THREE.Mesh) => {
+      if (node !== null) {
+        node.geometry.center();
       }
     },
     [portals]
@@ -93,56 +115,89 @@ const Scene = () => {
         return "/info";
     }
   };
+  const alignSpaceShipWithCamera = () => {
+    const spaceShip = spaceShipRef.current;
 
-  useFrame(state => {
-    if (spaceShip.current) {
-      const spaceShipBox = new THREE.Box3().setFromObject(spaceShip.current);
+    if (spaceShip) {
+      spaceShip.rotation.copy(camera.rotation);
+      spaceShip.position.copy(camera.position);
+      spaceShip.updateMatrix();
+      spaceShip.translateZ(-50);
+      spaceShip.translateY(-10);
+      spaceShip.rotateY(-Math.PI / 2);
+      spaceShip.rotateZ(-Math.PI / 12);
+    }
+  };
+
+  const handleCollisions = () => {
+    const spaceShip = spaceShipRef.current;
+    if (spaceShip) {
+      const spaceShipBox = new THREE.Box3().setFromObject(spaceShip);
       portals.forEach(portal => {
         const portalBox = new THREE.Box3().setFromObject(portal);
         const collision = spaceShipBox.intersectsBox(portalBox);
         if (collision) {
           const portalLink = getPortalLink(portal);
           if (portalLink) {
-            setIsNavigating(true);
-            setIsMoving(false);
+            actions.setIsNavigatingOut(true);
+            actions.setIsMoving(false);
             setTimeout(() => {
-              setIsNavigating(false);
               navigate(portalLink);
             }, 1000);
           }
         }
       });
     }
+  };
 
-    if (isMoving) {
-      camera.translateZ(-2);
-      // Update orbit camera target to fix weird rotate
-      if (state.clock.elapsedTime > cameraTargetChangeCounter) {
-        setCameraTargetChangeCounter(Math.floor(state.clock.elapsedTime) + 1);
-        const newCamera = camera.clone();
-        newCamera.translateZ(-targetFromBase);
-        const { position } = newCamera;
-        setCameraTarget(new THREE.Vector3(position.x, position.y, position.z));
-      }
-      if (orbitControls.current) {
-        orbitControls.current.update();
-      }
+  const moveCamera = (state: RootState) => {
+    camera.translateZ(-2);
+    // Update orbit camera target to fix weird rotate
+    if (state.clock.elapsedTime > cameraTargetChangeCounter) {
+      setCameraTargetChangeCounter(Math.floor(state.clock.elapsedTime) + 1);
+      const newCamera = camera.clone();
+      newCamera.translateZ(-targetFromBase);
+      const { position } = newCamera;
+      setCameraTarget(new THREE.Vector3(position.x, position.y, position.z));
+    }
+    if (orbitControls.current) {
+      orbitControls.current.update();
+    }
+    alignSpaceShipWithCamera();
+  };
+
+  useFrame(threeState => {
+    const spaceShip = spaceShipRef.current;
+
+    handleCollisions();
+
+    if (state.isMoving) {
+      moveCamera(threeState);
     }
 
-    if (isNavigating && spaceShip.current) {
-      spaceShip.current.translateX(-5);
+    // Navigate out, send spaceship far
+    if (state.isNavigatingOut && spaceShipRef.current) {
+      spaceShipRef.current.translateX(-5);
+    }
+
+    // Navigate in, zoom to space ship
+    if (state.isNavigatingIn && !active) {
+      if (camera.position.z < cameraBasePosition[2]) {
+        actions.setIsNavigatingIn(false);
+      } else {
+        camera.translateZ(-5);
+      }
     }
   });
 
   useEffect(() => {
-    if (!isLoadingAssets && active) {
-      setIsLoadingAssets(true);
+    if (!state.isLoadingAssets && active) {
+      actions.setIsLoadingAssets(true);
     }
-    if (isLoadingAssets && !active) {
-      setIsLoadingAssets(false);
+    if (state.isLoadingAssets && !active) {
+      actions.setIsLoadingAssets(false);
     }
-    // camera.lookAt(new THREE.Vector3(0, 0, cameraBasePosition.z - 100));
-  }, [active, isLoadingAssets]);
+  }, [active, state]);
 
   return (
     <>
@@ -156,30 +211,45 @@ const Scene = () => {
       <ambientLight intensity={0.5} />
       <Suspense fallback={<Loader />}>
         <SpaceShip
-          ref={spaceShip}
+          ref={spaceShipRef}
           scale={isMobile ? 1.5 : 1.5}
-          rotation={[0, -Math.PI / 2, -Math.PI / 24]}
+          rotation={[0, -Math.PI / 2, -Math.PI / 12]}
+          position={[
+            cameraBasePosition[0],
+            cameraBasePosition[1] - 10,
+            cameraBasePosition[2] - 50,
+          ]}
         />
         <Portal
           ref={setPortal}
           title="Ohjelma"
           scale={10}
-          position={[300, 0, cameraBasePosition[2] - 300]}
+          position={[300, 0, cameraBasePosition[2] - 400]}
           rotation={[0, Math.PI / 4, 0]}
         />
         <Portal
           ref={setPortal}
           title="Info"
           scale={10}
-          position={[0, 0, cameraBasePosition[2] - 350]}
+          position={[0, 0, cameraBasePosition[2] - 450]}
           rotation={[0, Math.PI / 2, 0]}
         />
         <Portal
           ref={setPortal}
           title="Telegram"
           scale={10}
-          position={[-300, 0, cameraBasePosition[2] - 300]}
+          position={[-300, 0, cameraBasePosition[2] - 400]}
           rotation={[0, -Math.PI / 4, 0]}
+        />
+        <TextMesh
+          ref={setMainText}
+          text="Cottage flow"
+          position={[
+            cameraBasePosition[0],
+            cameraBasePosition[1],
+            cameraBasePosition[2] + 50,
+          ]}
+          textOptions={{ size: 20 }}
         />
       </Suspense>
     </>
@@ -189,20 +259,34 @@ const Scene = () => {
 const IndexPage = () => {
   const isMoving = useGlobal(state => state.isMoving)[0];
   const isLoadingAssets = useGlobal(state => state.isLoadingAssets)[0];
-  const isNavigating = useGlobal(state => state.isNavigating)[0];
+  const isNavigatingOut = useGlobal(state => state.isNavigatingOut)[0];
+  const isNavigatingIn = useGlobal(
+    state => state.isNavigatingIn,
+    actions => actions.setIsNavigatingIn
+  )[0];
+
   return (
     <Layout onlySeo>
       <Box width="100%" height="100vh" bg="black">
         {typeof window !== "undefined" && (
           <>
             <Canvas
-              camera={{ position: cameraBasePosition, rotation: [0, 0, 0] }}
+              camera={{
+                position: [
+                  cameraBasePosition[0],
+                  cameraBasePosition[1],
+                  cameraBasePosition[2] + 600,
+                ],
+                rotation: [0, 0, 0],
+              }}
             >
               <Scene />
             </Canvas>
             <Flex
               display={
-                isMoving || isLoadingAssets || isNavigating ? "none" : "flex"
+                isMoving || isLoadingAssets || isNavigatingIn || isNavigatingOut
+                  ? "none"
+                  : "flex"
               }
               position="absolute"
               top="0"

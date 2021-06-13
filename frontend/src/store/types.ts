@@ -1,11 +1,13 @@
 export type ActionTypes = {
   setIsMoving: (isMoving: boolean) => void;
   setIsLoadingAssets: (newState: boolean) => void;
-  setIsNavigating: (newState: boolean) => void;
+  setIsNavigatingOut: (newState: boolean) => void;
+  setIsNavigatingIn: (newState: boolean) => void;
 };
 
 export type GlobalState = {
   isMoving: boolean;
   isLoadingAssets: boolean;
-  isNavigating: boolean;
+  isNavigatingOut: boolean;
+  isNavigatingIn: boolean;
 };

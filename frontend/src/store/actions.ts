@@ -11,11 +11,17 @@ const actions = {
   ) => {
     store.setState({ ...store.state, isLoadingAssets: newState });
   },
-  setIsNavigating: (
+  setIsNavigatingOut: (
     store: Store<GlobalState, ActionTypes>,
     newState: boolean
   ) => {
-    store.setState({ ...store.state, isNavigating: newState });
+    store.setState({ ...store.state, isNavigatingOut: newState });
+  },
+  setIsNavigatingIn: (
+    store: Store<GlobalState, ActionTypes>,
+    newState: boolean
+  ) => {
+    store.setState({ ...store.state, isNavigatingIn: newState });
   },
 };
 
