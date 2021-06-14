@@ -61,6 +61,8 @@ const Scene = () => {
     )
   );
 
+  const [timeWhenLoaded, setTimeWhenLoaded] = useState(-1);
+
   const [isMobile] = useMediaQuery("(max-width: 992px)");
 
   const { active } = useProgress();
@@ -180,12 +182,16 @@ const Scene = () => {
       spaceShipRef.current.translateX(-5);
     }
 
+    if (!active && timeWhenLoaded < 0) {
+      setTimeWhenLoaded(threeState.clock.elapsedTime);
+    }
+
     // Navigate in, zoom to space ship
     if (state.isNavigatingIn && !active) {
       if (camera.position.z < cameraBasePosition[2]) {
         actions.setIsNavigatingIn(false);
       } else {
-        camera.translateZ(-threeState.clock.elapsedTime * 1.5);
+        camera.translateZ(-(threeState.clock.elapsedTime - timeWhenLoaded) * 3);
       }
     }
   });
