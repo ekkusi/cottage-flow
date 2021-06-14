@@ -30,19 +30,19 @@ const tracks: Track[] = [
     name: "Scape Main",
   },
   {
-    src: "music/03_Harmony.mp3",
+    src: "/music/03_Harmony.mp3",
     name: "Harmony",
   },
   {
-    src: "music/07_Barbarianism.mp3",
+    src: "/music/07_Barbarianism.mp3",
     name: "Barbarianism",
   },
   {
-    src: "music/13_Adventure.mp3",
+    src: "/music/13_Adventure.mp3",
     name: "Adventure",
   },
   {
-    src: "music/17_Fanfare.mp3",
+    src: "/music/17_Fanfare.mp3",
     name: "Fanfare",
   },
 ];
