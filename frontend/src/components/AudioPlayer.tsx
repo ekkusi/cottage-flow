@@ -23,6 +23,7 @@ import chakraMotionWrapper from "../utils/chakraMotionWrapper";
 import { useAnimation } from "framer-motion";
 import { ControlsAnimationDefinition } from "framer-motion/types/animation/types";
 import { useEffect } from "react";
+import useGlobal from "../store";
 
 type AudioPlayerProps = H5AudioPlayer["props"] & {
   containerProps?: BoxProps;
@@ -67,7 +68,10 @@ const AudioPlayer = ({
   const [showControls, setShowControls] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasSeenPrompt, setHasSeenPrompt] = useState(false);
-  const [isPromptOpen, setIsPromptOpen] = useState(false);
+  const [isPromptOpen, setIsPromptOpen] = useGlobal(
+    state => state.isPromptOpen,
+    actions => actions.setIsPromptOpen
+  );
   const ref = useRef<H5AudioPlayer>(null);
   const yesButton = useRef<HTMLButtonElement>(null);
 
@@ -162,7 +166,7 @@ const AudioPlayer = ({
         <AlertDialogContent>
           <AlertDialogCloseButton />
           <AlertDialogBody>
-            Voisinko soittaa sinulle musiikkia täällä käydessäsi? :)
+            Saisinko soittaa sinulle musiikkia täällä käydessäsi?
           </AlertDialogBody>
           <AlertDialogFooter>
             <Button ref={yesButton} mr={3} onClick={onAllowMusic}>

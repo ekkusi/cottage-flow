@@ -23,6 +23,12 @@ const actions = {
   ) => {
     store.setState({ ...store.state, isNavigatingIn: newState });
   },
+  setIsPromptOpen: (
+    store: Store<GlobalState, ActionTypes>,
+    newState: boolean
+  ) => {
+    store.setState({ ...store.state, isPromptOpen: newState });
+  },
 };
 
 export default actions;

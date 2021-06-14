@@ -3,6 +3,7 @@ export type ActionTypes = {
   setIsLoadingAssets: (newState: boolean) => void;
   setIsNavigatingOut: (newState: boolean) => void;
   setIsNavigatingIn: (newState: boolean) => void;
+  setIsPromptOpen: (newState: boolean) => void;
 };
 
 export type GlobalState = {
@@ -10,4 +11,5 @@ export type GlobalState = {
   isLoadingAssets: boolean;
   isNavigatingOut: boolean;
   isNavigatingIn: boolean;
+  isPromptOpen: boolean;
 };

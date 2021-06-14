@@ -182,12 +182,12 @@ const Scene = () => {
       spaceShipRef.current.translateX(-5);
     }
 
-    if (!active && timeWhenLoaded < 0) {
+    if ((!active || state.isPromptOpen) && timeWhenLoaded < 0) {
       setTimeWhenLoaded(threeState.clock.elapsedTime);
     }
 
     // Navigate in, zoom to space ship
-    if (state.isNavigatingIn && !active) {
+    if (state.isNavigatingIn && !active && !state.isPromptOpen) {
       if (camera.position.z < cameraBasePosition[2]) {
         actions.setIsNavigatingIn(false);
       } else {
