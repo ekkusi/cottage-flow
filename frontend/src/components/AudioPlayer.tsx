@@ -26,7 +26,7 @@ type Track = {
 };
 const tracks: Track[] = [
   {
-    src: "music/01_Scape_Main.mp3",
+    src: "/music/01_Scape_Main.mp3",
     name: "Scape Main",
   },
   {
