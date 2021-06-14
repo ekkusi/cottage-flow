@@ -1,4 +1,11 @@
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogCloseButton,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
   BoxProps,
   Button,
@@ -6,7 +13,7 @@ import {
   Icon,
   Text,
 } from "@chakra-ui/react";
-import React, { useCallback, useRef, useState } from "react";
+import React, { createRef, useCallback, useRef, useState } from "react";
 import H5AudioPlayer from "react-h5-audio-player";
 import AudioPlayerBase from "react-h5-audio-player";
 import { AiOutlineSound } from "react-icons/ai";
@@ -15,6 +22,7 @@ import "react-h5-audio-player/lib/styles.css";
 import chakraMotionWrapper from "../utils/chakraMotionWrapper";
 import { useAnimation } from "framer-motion";
 import { ControlsAnimationDefinition } from "framer-motion/types/animation/types";
+import { useEffect } from "react";
 
 type AudioPlayerProps = H5AudioPlayer["props"] & {
   containerProps?: BoxProps;
@@ -52,10 +60,16 @@ const BoxWithMotion = chakraMotionWrapper(Box);
 const AudioPlayer = ({
   containerProps,
   buttonProps,
+  autoPlay,
   ...audioProps
 }: AudioPlayerProps): JSX.Element => {
   const [currentAudio, setCurrentAudio] = useState(tracks[0]);
   const [showControls, setShowControls] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [hasSeenPrompt, setHasSeenPrompt] = useState(false);
+  const [isPromptOpen, setIsPromptOpen] = useState(false);
+  const ref = useRef<H5AudioPlayer>(null);
+  const yesButton = useRef<HTMLButtonElement>(null);
 
   const animationControls = useAnimation();
 
@@ -94,6 +108,29 @@ const AudioPlayer = ({
     }
   };
 
+  const onAllowMusic = () => {
+    setIsPromptOpen(false);
+    const audio = ref.current?.audio?.current;
+    if (audio) {
+      audio.muted = false;
+      audio.play();
+    }
+  };
+
+  useEffect(() => {
+    const audio = ref.current?.audio?.current;
+    if (autoPlay && audio && !hasSeenPrompt) {
+      const playPromise = audio.play();
+      playPromise.catch(() => {
+        setHasSeenPrompt(true);
+        audio.muted = true;
+        setTimeout(() => {
+          setIsPromptOpen(true);
+        }, 2000);
+      });
+    }
+  });
+
   return (
     <>
       <Box
@@ -114,19 +151,52 @@ const AudioPlayer = ({
           <Icon as={AiOutlineSound} w={30} h={30} />
         </BoxWithMotion>
       </Box>
+      <AlertDialog
+        leastDestructiveRef={yesButton}
+        onClose={() => setIsPromptOpen(false)}
+        isOpen={isPromptOpen && !isPlaying}
+        isCentered
+      >
+        <AlertDialogOverlay />
+
+        <AlertDialogContent>
+          <AlertDialogCloseButton />
+          <AlertDialogBody>
+            Voisinko soittaa sinulle musiikkia täällä käydessäsi? :)
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <Button ref={yesButton} mr={3} onClick={onAllowMusic}>
+              JOO!!
+            </Button>
+            <Button variant="outline" onClick={() => setIsPromptOpen(false)}>
+              Ei kiitos:(
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <Box {...containerProps} display={showControls ? "block" : "none"}>
         <AudioPlayerBase
+          ref={ref}
           src={currentAudio.src}
           onEnded={loadNextTrack}
           onClickNext={loadNextTrack}
           onClickPrevious={loadPreviousTrack}
           showSkipControls
           onPlay={() => {
+            console.log("On Play");
+
+            setIsPlaying(true);
+            setHasSeenPrompt(true);
             animationControls.start(animation);
           }}
           onPause={() => {
+            setIsPlaying(false);
             animationControls.set(initialAnimationState);
             animationControls.stop();
+          }}
+          onPlayError={() => {}}
+          onCanPlay={() => {
+            setIsPlaying(true);
           }}
           header={
             <Box color="#333" textAlign="center" position="relative">
