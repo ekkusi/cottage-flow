@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { WrapPageElementNodeArgs } from "gatsby";
-import { BoxProps, Text } from "@chakra-ui/react";
+import { Box, BoxProps, Text } from "@chakra-ui/react";
 
 import AudioPlayer from "./src/components/AudioPlayer";
 
@@ -17,7 +17,7 @@ export const wrapPageElement = ({
   };
 
   return (
-    <>
+    <Box>
       <AudioPlayer
         autoPlay
         containerProps={{
@@ -31,6 +31,6 @@ export const wrapPageElement = ({
         }}
       />
       <AnimatePresence exitBeforeEnter>{element}</AnimatePresence>
-    </>
+    </Box>
   );
 };
