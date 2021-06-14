@@ -13,7 +13,7 @@ const Loader = (props: LoaderProps): JSX.Element => {
 
   return (
     <Html center prepend>
-      <Text textAlign="center">Malta tovi, mahtavutta ladataan</Text>
+      <Text textAlign="center">Malta tovi, mahtavuutta ladataan</Text>
       <Progress
         value={progress}
         height="50px"

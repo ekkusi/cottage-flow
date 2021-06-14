@@ -35,6 +35,7 @@
     "@types/react-helmet": "^6.1.1",
     "@types/three": "^0.129.1",
     "@types/use-global-hook": "^0.1.3",
+    "gatsby-plugin-ts-config": "^1.1.5",
     "prettier": "2.2.1",
     "typescript": "^4.3.2"
   },

@@ -16,20 +16,29 @@ const ProgrammePage = () => (
         Olennaistahan festareilla on saada mussiikkia tai muuta esitystä
         pystyyn. Tätä tulee toki talonkin puolesta, mutta järjestäjien henkiset
         ja fyysiset kapasiteetit riittävät kuitenkin vain rajoitettuun määrään
-        viihdettä.
+        viihdettä sekä ohjelmaa.
       </Text>
       <Text textDecoration="underline">Mikä avuksi?</Text>
       <Text>
         No juurikin{" "}
         <Text as="span" fontSize="3xl">
-          SINÄ (JA KUMMPANISI)!
+          SINÄ (JA TOVERISI)!
         </Text>
       </Text>
-      <Text>
+      <Text mb="10">
         Näillä festareilla on kenellä tahansa mahdollisuus (erittäinen
         suositellusti) pistää pystyyn oma esitys ja päästää oma showhenkilö
         valloilleen. Suunnittele siis (tai ole suunnittelematta) esitys
         viikonlopulle ja astu lavalle:)
+      </Text>
+      <Heading as="h3" size="lg" mb="5">
+        HUOM!
+      </Heading>
+      <Text>
+        Esityksen tai ohjelmanumeron ei tietenkään pakko ole olla musiikkia. Jos
+        ideasi on pitää ohjelma kaljakellunnasta Fröbelin Palikoiden
+        taustoittamana, kilpailu hienoimman hiekkalinnan rakentamisesta tai mitä
+        tahansa näiden väliltä, on se kelpoinen näille kemuille!
       </Text>
     </Section>
   </Layout>

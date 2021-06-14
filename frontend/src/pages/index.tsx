@@ -151,7 +151,7 @@ const Scene = () => {
   };
 
   const moveCamera = (state: RootState) => {
-    camera.translateZ(-2);
+    camera.translateZ(isMobile ? -1.5 : -2);
     // Update orbit camera target to fix weird rotate
     if (state.clock.elapsedTime > cameraTargetChangeCounter) {
       setCameraTargetChangeCounter(Math.floor(state.clock.elapsedTime) + 1);
@@ -185,7 +185,7 @@ const Scene = () => {
       if (camera.position.z < cameraBasePosition[2]) {
         actions.setIsNavigatingIn(false);
       } else {
-        camera.translateZ(-5);
+        camera.translateZ(-threeState.clock.elapsedTime * 1.5);
       }
     }
   });
@@ -207,12 +207,12 @@ const Scene = () => {
         <Controls ref={setPointerLockControls} />
       )} */}
       <OrbitControls ref={orbitControls} target={cameraTarget} />
-      <Stars depth={300} />
+      <Stars depth={400} />
       <ambientLight intensity={0.5} />
       <Suspense fallback={<Loader />}>
         <SpaceShip
           ref={spaceShipRef}
-          scale={isMobile ? 1.5 : 1.5}
+          scale={isMobile ? 1 : 1.5}
           rotation={[0, -Math.PI / 2, -Math.PI / 12]}
           position={[
             cameraBasePosition[0],
@@ -224,21 +224,21 @@ const Scene = () => {
           ref={setPortal}
           title="Ohjelma"
           scale={10}
-          position={[300, 0, cameraBasePosition[2] - 400]}
+          position={[200, 0, cameraBasePosition[2] - 500]}
           rotation={[0, Math.PI / 4, 0]}
         />
         <Portal
           ref={setPortal}
           title="Info"
           scale={10}
-          position={[0, 0, cameraBasePosition[2] - 450]}
+          position={[0, 0, cameraBasePosition[2] - 550]}
           rotation={[0, Math.PI / 2, 0]}
         />
         <Portal
           ref={setPortal}
           title="Telegram"
           scale={10}
-          position={[-300, 0, cameraBasePosition[2] - 400]}
+          position={[-200, 0, cameraBasePosition[2] - 500]}
           rotation={[0, -Math.PI / 4, 0]}
         />
         <TextMesh
@@ -266,7 +266,13 @@ const IndexPage = () => {
   )[0];
 
   return (
-    <Layout onlySeo>
+    <Layout
+      onlySeo
+      animation={{ from: { opacity: 0 }, to: { opacity: 1 } }}
+      exitAnimation={{
+        transition: { duration: 0 },
+      }}
+    >
       <Box width="100%" height="100vh" bg="black">
         {typeof window !== "undefined" && (
           <>
@@ -275,7 +281,7 @@ const IndexPage = () => {
                 position: [
                   cameraBasePosition[0],
                   cameraBasePosition[1],
-                  cameraBasePosition[2] + 600,
+                  cameraBasePosition[2] + 500,
                 ],
                 rotation: [0, 0, 0],
               }}

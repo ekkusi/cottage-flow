@@ -6,26 +6,41 @@
  */
 
 import * as React from "react";
-import PropTypes from "prop-types";
 import { useStaticQuery, graphql } from "gatsby";
 import { globalHistory } from "@reach/router";
 
 import Header from "./Header";
 import "./layout.css";
-import { Box, Container, Flex } from "@chakra-ui/react";
+import { Container, Flex } from "@chakra-ui/react";
 import Seo from "./Seo";
 import Footer from "./Footer";
 import { useEffect } from "react";
 import useGlobal from "../store";
-import actions from "../store/actions";
+import { motion, TargetAndTransition, Variant } from "framer-motion";
+
+type AnimationVariants = {
+  from: Variant;
+  to: Variant;
+};
 
 type LayoutProps = {
   children: React.ReactNode;
   title?: string;
   onlySeo?: boolean;
+  animation?: AnimationVariants;
+  exitAnimation?: TargetAndTransition;
 };
 
-const Layout = ({ title, onlySeo = false, children }: LayoutProps) => {
+const Layout = ({
+  title,
+  onlySeo = false,
+  animation = {
+    from: { scale: 0 },
+    to: { scale: 1 },
+  },
+  exitAnimation,
+  children,
+}: LayoutProps) => {
   const setIsNavigatingOut = useGlobal(
     () => {},
     actions => actions.setIsNavigatingOut
@@ -61,25 +76,37 @@ const Layout = ({ title, onlySeo = false, children }: LayoutProps) => {
     });
   }, [setIsNavigatingIn, setIsNavigatingOut]);
 
+  console.log(globalHistory.location.pathname);
+  console.log(exitAnimation);
+
   return (
     <>
-      <Seo title={title} />
-      {!onlySeo ? (
-        <Flex minHeight="100vh" direction="column">
-          <Header pageTitle={title || siteTitle} />
-          <Container
-            as="main"
-            maxWidth="1000px"
-            px={{ base: "3", xl: "0" }}
-            pb="10"
-          >
-            {children}
-          </Container>
-          <Footer mt="auto" />
-        </Flex>
-      ) : (
-        children
-      )}
+      <motion.div
+        key={globalHistory.location.pathname}
+        initial="from"
+        animate="to"
+        variants={animation}
+        exit={exitAnimation || "from"}
+        transition={{ duration: 0.5 }}
+      >
+        <Seo title={title} />
+        {!onlySeo ? (
+          <Flex minHeight="100vh" direction="column">
+            <Header pageTitle={title || siteTitle} />
+            <Container
+              as="main"
+              maxWidth="1000px"
+              px={{ base: "3", xl: "0" }}
+              pb="10"
+            >
+              {children}
+            </Container>
+            <Footer mt="auto" />
+          </Flex>
+        ) : (
+          children
+        )}
+      </motion.div>
     </>
   );
 };

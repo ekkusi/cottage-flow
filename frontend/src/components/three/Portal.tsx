@@ -55,7 +55,7 @@ const Portal = forwardRef<THREE.Mesh, PortalProps>(
           text={title}
           rotation={getTextRotation()}
           position={[0, 9, 0]}
-          textOptions={{ size: 1 }}
+          textOptions={{ size: 1.5, height: 0.25 }}
         />
       </group>
     );

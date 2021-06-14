@@ -9,7 +9,7 @@ type HeaderProps = {
 const Header = ({ pageTitle }: HeaderProps) => (
   <Box as="header" px="5" py={{ base: "7", md: "10" }} position="relative">
     <Text as="span" mb={{ base: "10", md: "5" }} display="inline-block">
-      <Link to="/">🚉 Takasi pääasemalle 🚉</Link>
+      <Link to="/">🚉 Takasin pääasemalle 🚉</Link>
     </Text>
     <Heading as="h1" size="4xl" textAlign="center" mb={{ base: "12", md: "5" }}>
       {pageTitle}
