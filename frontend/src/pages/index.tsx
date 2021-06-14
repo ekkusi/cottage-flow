@@ -257,7 +257,10 @@ const Scene = () => {
 };
 
 const IndexPage = () => {
-  const isMoving = useGlobal(state => state.isMoving)[0];
+  const [isMoving, setIsMoving] = useGlobal(
+    state => state.isMoving,
+    actions => actions.setIsMoving
+  );
   const isLoadingAssets = useGlobal(state => state.isLoadingAssets)[0];
   const isNavigatingOut = useGlobal(state => state.isNavigatingOut)[0];
   const isNavigatingIn = useGlobal(
@@ -277,6 +280,7 @@ const IndexPage = () => {
         {typeof window !== "undefined" && (
           <>
             <Canvas
+              id="canvas"
               camera={{
                 position: [
                   cameraBasePosition[0],
@@ -301,6 +305,9 @@ const IndexPage = () => {
               alignItems="center"
               justifyContent="center"
               bg="rgba(0, 0, 0, 0.7)"
+              onClick={() => {
+                setIsMoving(true);
+              }}
             >
               <Heading
                 as="h1"
