@@ -8,7 +8,7 @@ const initialState: GlobalState = {
   isLoadingAssets: true,
   isNavigatingOut: false,
   isNavigatingIn: true,
-  isPromptOpen: true,
+  isPromptOpen: false,
 };
 
 const useGlobal = globalHook<GlobalState, ActionTypes>(

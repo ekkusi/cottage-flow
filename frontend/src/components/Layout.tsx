@@ -66,18 +66,13 @@ const Layout = ({
     return globalHistory.listen(({ action, location }) => {
       if (action === "PUSH") {
         if (location.pathname === "/") {
-          console.log("Navigating to home");
           setIsNavigatingIn(true);
         } else {
-          console.log("Navigating out of home");
           setIsNavigatingOut(false);
         }
       }
     });
   }, [setIsNavigatingIn, setIsNavigatingOut]);
-
-  console.log(globalHistory.location.pathname);
-  console.log(exitAnimation);
 
   return (
     <>

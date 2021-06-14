@@ -142,8 +142,6 @@ const AudioPlayer = ({
         as="span"
         _hover={{ cursor: "pointer" }}
         onClick={() => {
-          console.log("Clicking");
-
           setShowControls(true);
         }}
         {...buttonProps}
@@ -187,8 +185,6 @@ const AudioPlayer = ({
           onClickPrevious={loadPreviousTrack}
           showSkipControls
           onPlay={() => {
-            console.log("On Play");
-
             setIsPlaying(true);
             setHasSeenPrompt(true);
             animationControls.start(animation);
@@ -199,9 +195,6 @@ const AudioPlayer = ({
             animationControls.stop();
           }}
           onPlayError={() => {}}
-          onCanPlay={() => {
-            setIsPlaying(true);
-          }}
           header={
             <Box color="#333" textAlign="center" position="relative">
               <Text fontSize="sm" fontStyle="italic" mb="1">
