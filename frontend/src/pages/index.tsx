@@ -182,8 +182,12 @@ const Scene = () => {
       spaceShipRef.current.translateX(-5);
     }
 
-    if ((!active || state.isPromptOpen) && timeWhenLoaded < 0) {
+    if (!active && timeWhenLoaded < -1) {
       setTimeWhenLoaded(threeState.clock.elapsedTime);
+    }
+
+    if (state.isPromptOpen) {
+      setTimeWhenLoaded(threeState.clock.getElapsedTime());
     }
 
     // Navigate in, zoom to space ship
