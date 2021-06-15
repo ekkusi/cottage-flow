@@ -182,7 +182,7 @@ const Scene = () => {
       spaceShipRef.current.translateX(-5);
     }
 
-    if (!active && timeWhenLoaded < -1) {
+    if (!active && timeWhenLoaded < 0) {
       setTimeWhenLoaded(threeState.clock.elapsedTime);
     }
 
