@@ -186,7 +186,7 @@ const Scene = () => {
       setTimeWhenLoaded(threeState.clock.elapsedTime);
     }
 
-    if (state.isPromptOpen) {
+    if (!active && state.isPromptOpen) {
       setTimeWhenLoaded(threeState.clock.getElapsedTime());
     }
 
