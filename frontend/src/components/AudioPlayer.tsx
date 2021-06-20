@@ -54,6 +54,10 @@ const tracks: Track[] = [
     src: "/music/17_Fanfare.mp3",
     name: "Fanfare",
   },
+  {
+    src: "/music/09_Sea_Shanty_2.mp3",
+    name: "Sea Shanty 2",
+  },
 ];
 
 const BoxWithMotion = chakraMotionWrapper(Box);
