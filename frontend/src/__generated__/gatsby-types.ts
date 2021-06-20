@@ -997,6 +997,8 @@ type SitePluginPluginOptions = {
   readonly token: Maybe<Scalars['String']>;
   readonly graphqlTag: Maybe<Scalars['String']>;
   readonly watchMode: Maybe<Scalars['Boolean']>;
+  readonly resetCSS: Maybe<Scalars['Boolean']>;
+  readonly portalZIndex: Maybe<Scalars['Int']>;
   readonly pathCheck: Maybe<Scalars['Boolean']>;
   readonly allExtensions: Maybe<Scalars['Boolean']>;
   readonly isTSX: Maybe<Scalars['Boolean']>;
@@ -2525,6 +2527,8 @@ type SitePluginPluginOptionsFilterInput = {
   readonly token: Maybe<StringQueryOperatorInput>;
   readonly graphqlTag: Maybe<StringQueryOperatorInput>;
   readonly watchMode: Maybe<BooleanQueryOperatorInput>;
+  readonly resetCSS: Maybe<BooleanQueryOperatorInput>;
+  readonly portalZIndex: Maybe<IntQueryOperatorInput>;
   readonly pathCheck: Maybe<BooleanQueryOperatorInput>;
   readonly allExtensions: Maybe<BooleanQueryOperatorInput>;
   readonly isTSX: Maybe<BooleanQueryOperatorInput>;
@@ -2772,6 +2776,8 @@ type SitePageFieldsEnum =
   | 'pluginCreator.pluginOptions.token'
   | 'pluginCreator.pluginOptions.graphqlTag'
   | 'pluginCreator.pluginOptions.watchMode'
+  | 'pluginCreator.pluginOptions.resetCSS'
+  | 'pluginCreator.pluginOptions.portalZIndex'
   | 'pluginCreator.pluginOptions.pathCheck'
   | 'pluginCreator.pluginOptions.allExtensions'
   | 'pluginCreator.pluginOptions.isTSX'
@@ -3966,6 +3972,8 @@ type SitePluginFieldsEnum =
   | 'pluginOptions.token'
   | 'pluginOptions.graphqlTag'
   | 'pluginOptions.watchMode'
+  | 'pluginOptions.resetCSS'
+  | 'pluginOptions.portalZIndex'
   | 'pluginOptions.pathCheck'
   | 'pluginOptions.allExtensions'
   | 'pluginOptions.isTSX'
@@ -4160,23 +4168,10 @@ type SiteBuildMetadataSortInput = {
   readonly order: Maybe<ReadonlyArray<Maybe<SortOrderEnum>>>;
 };
 
-type ProgramsPageQueryVariables = Exact<{ [key: string]: never; }>;
+type usersekkusipilaProjectsomatcottageFlowfrontendsrccomponentsSeoTsx63159454QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type ProgramsPageQuery = { readonly allSanityProgram: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<SanityProgram, 'description' | 'name' | '_createdAt' | '_id' | '_key' | '_rev' | '_type' | '_updatedAt'>
-        & { readonly image: Maybe<{ readonly asset: Maybe<Pick<SanityImageAsset, 'url'>> }> }
-      ) }> } };
-
-type SiteTitleQueryQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type SiteTitleQueryQuery = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title'>> }> };
-
-type homeekeProjectsRealShitcottageFlowfrontendsrccomponentsSeoTsx63159454QueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type homeekeProjectsRealShitcottageFlowfrontendsrccomponentsSeoTsx63159454Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description' | 'author'>> }> };
+type usersekkusipilaProjectsomatcottageFlowfrontendsrccomponentsSeoTsx63159454Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description' | 'author'>> }> };
 
 type GatsbyImageSharpFixedFragment = Pick<ImageSharpFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet'>;
 
@@ -4203,6 +4198,19 @@ type GatsbyImageSharpFluid_withWebp_tracedSVGFragment = Pick<ImageSharpFluid, 't
 type GatsbyImageSharpFluid_noBase64Fragment = Pick<ImageSharpFluid, 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
 
 type GatsbyImageSharpFluid_withWebp_noBase64Fragment = Pick<ImageSharpFluid, 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
+
+type SiteTitleQueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type SiteTitleQueryQuery = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title'>> }> };
+
+type ProgramsPageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type ProgramsPageQuery = { readonly allSanityProgram: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<SanityProgram, 'description' | 'name' | '_createdAt' | '_id' | '_key' | '_rev' | '_type' | '_updatedAt'>
+        & { readonly image: Maybe<{ readonly asset: Maybe<Pick<SanityImageAsset, 'url'>> }> }
+      ) }> } };
 
 type PagesQueryQueryVariables = Exact<{ [key: string]: never; }>;
 

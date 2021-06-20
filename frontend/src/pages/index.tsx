@@ -113,6 +113,8 @@ const Scene = () => {
         return "/info";
       case 2:
         return "/telegram";
+      case 3:
+        return "/matias-honkaniemi";
       default:
         return "/info";
     }
@@ -233,22 +235,29 @@ const Scene = () => {
           ref={setPortal}
           title="Ohjelma"
           scale={10}
-          position={[200, 0, cameraBasePosition[2] - 500]}
+          position={[500, -100, cameraBasePosition[2] - 900]}
           rotation={[0, Math.PI / 4, 0]}
         />
         <Portal
           ref={setPortal}
           title="Info"
           scale={10}
-          position={[0, 0, cameraBasePosition[2] - 550]}
+          position={[0, 100, cameraBasePosition[2] - 950]}
           rotation={[0, Math.PI / 2, 0]}
         />
         <Portal
           ref={setPortal}
           title="Telegram"
           scale={10}
-          position={[-200, 0, cameraBasePosition[2] - 500]}
+          position={[-500, -100, cameraBasePosition[2] - 900]}
           rotation={[0, -Math.PI / 4, 0]}
+        />
+        <Portal
+          ref={setPortal}
+          title="Matias Honkaniemelle"
+          scale={10}
+          position={[400, 400, cameraBasePosition[2] - 800]}
+          rotation={[0, Math.PI / 2, 0]}
         />
         <TextMesh
           ref={setMainText}

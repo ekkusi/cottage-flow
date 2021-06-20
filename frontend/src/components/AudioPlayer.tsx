@@ -127,7 +127,8 @@ const AudioPlayer = ({
 
   useEffect(() => {
     const audio = ref.current?.audio?.current;
-    if (autoPlay && audio && !hasSeenPrompt) {
+    const isMatiasPage = location.pathname === "/matias-honkaniemi";
+    if (autoPlay && audio && !hasSeenPrompt && !isMatiasPage) {
       const playPromise = audio.play();
       playPromise.catch(() => {
         setHasSeenPrompt(true);
@@ -136,6 +137,10 @@ const AudioPlayer = ({
           setIsPromptOpen(true);
         }, 2000);
       });
+    }
+
+    if (audio && isMatiasPage) {
+      audio.pause();
     }
   });
 

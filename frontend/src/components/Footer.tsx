@@ -20,6 +20,7 @@ const Footer = ({ ...boxProps }: FooterProps): JSX.Element => {
         <Link to="/info">Info</Link>
         <Link to="/programme">Ohjelma</Link>
         <Link to="/telegram">Telegram</Link>
+        <Link to="/matias-honkaniemi">Matias Honkaniemelle</Link>
       </Flex>
     </Section>
   );
