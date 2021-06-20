@@ -3,12 +3,12 @@ import { createClient } from "sanity-codegen";
 import sanityConfig from "../../sanity.config.json";
 import fetchNode from "node-fetch";
 
-const fetch = fetchNode as any;
+const fetched = window != undefined ? fetch : fetchNode as any;
 
 export default createClient<Documents>({
   projectId: sanityConfig.id,
   dataset: sanityConfig.dataset,
   apiVersion: "2021-06-16",
   useCdn: false,
-  fetch,
+  fetch: fetched,
 });
