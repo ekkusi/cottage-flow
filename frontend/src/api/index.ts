@@ -1,6 +1,9 @@
 import type { Documents } from "../types/sanity-schema";
 import { createClient } from "sanity-codegen";
 import sanityConfig from "../../sanity.config.json";
+import fetchNode from "node-fetch";
+
+const fetch = fetchNode as any;
 
 export default createClient<Documents>({
   projectId: sanityConfig.id,
