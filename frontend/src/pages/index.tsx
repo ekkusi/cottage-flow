@@ -20,7 +20,7 @@ import { Box } from "@chakra-ui/layout";
 import useGlobal from "../store";
 import { OrbitControls } from "../components/three/Controls";
 import Loader from "../components/three/Loader";
-import { navigate } from "gatsby";
+import { graphql, navigate } from "gatsby";
 import Portal from "../components/three/Portal";
 import { Flex, Heading, useMediaQuery } from "@chakra-ui/react";
 import Layout from "../components/Layout";
@@ -207,12 +207,11 @@ const Scene = () => {
 
   return (
     <>
-      {/* {isMobile ? (
-        <MobileControls ref={orbitControls} target={cameraTarget} />
+      {isMobile ? (
+        <OrbitControls ref={orbitControls} target={cameraTarget} />
       ) : (
-        <Controls ref={setPointerLockControls} />
-      )} */}
-      <OrbitControls ref={orbitControls} target={cameraTarget} />
+        <PointerLockControls ref={setPointerLockControls} />
+      )}
       <Stars depth={400} />
       <ambientLight intensity={0.5} />
       <Suspense fallback={<Loader />}>

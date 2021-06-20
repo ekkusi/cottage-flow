@@ -1,3 +1,5 @@
+import sanityConfig from "./sanity.config.json";
+
 module.exports = {
   siteMetadata: {
     title: `Cottage Flow`,
@@ -30,6 +32,23 @@ module.exports = {
     },
     `gatsby-plugin-gatsby-cloud`,
     `@chakra-ui/gatsby-plugin`,
+    {
+      resolve: `gatsby-source-sanity`,
+      options: {
+        projectId: sanityConfig.id,
+        dataset: sanityConfig.dataset,
+        // a token with read permissions is required
+        // if you have a private dataset
+        token: sanityConfig.token,
+
+        // If the Sanity GraphQL API was deployed using `--tag <name>`,
+        // use `graphqlTag` to specify the tag name. Defaults to `default`.
+        graphqlTag: "default",
+        watchMode: true,
+      },
+    },
+    `gatsby-plugin-typegen`,
+    // ...
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,

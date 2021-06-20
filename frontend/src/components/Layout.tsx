@@ -50,7 +50,7 @@ const Layout = ({
     actions => actions.setIsNavigatingIn
   )[1];
 
-  const data = useStaticQuery(graphql`
+  const data = useStaticQuery<GatsbyTypes.SiteTitleQueryQuery>(graphql`
     query SiteTitleQuery {
       site {
         siteMetadata {
