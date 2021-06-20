@@ -19,7 +19,7 @@ export const wrapPageElement = ({
   return (
     <>
       <AudioPlayer
-        // autoPlay
+        autoPlay
         containerProps={{
           ...positionProps,
           width: { base: "100%", md: "500px" },
