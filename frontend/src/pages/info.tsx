@@ -30,15 +30,15 @@ const InfoPage = () => (
       <InfoSubtitle>Missä?</InfoSubtitle>
       <Box mb="3">
         <StaticImage
-          src="../images/kartta-plain.png"
+          src="../images/kartta.png"
           alt="Kartta onneen"
           placeholder="blurred"
           layout="fullWidth"
         />
       </Box>
-      <Text as="a" href="https://goo.gl/maps/uuHe6wFTtazZgtdPA" target="_blank">
+      {/* <Text as="a" href="https://goo.gl/maps/uuHe6wFTtazZgtdPA" target="_blank">
         No ok tässä Google Maps linkki jos ei muka tuosta saa selvää...
-      </Text>
+      </Text> */}
     </Section>
   </Layout>
 );

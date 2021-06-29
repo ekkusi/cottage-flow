@@ -16,7 +16,10 @@ const ProgrammePage = ({ data }: PageQuery<GatsbyTypes.ProgramsPageQuery>) => {
   const programs: Program[] = React.useMemo(() => {
     const staticPrograms = data.allSanityProgram.edges.map(it => it.node);
     const allPrograms = result ? result : (staticPrograms as Program[]);
-    return allPrograms;
+    return allPrograms.sort(
+      (a, b) =>
+        new Date(b._createdAt).getTime() - new Date(a._createdAt).getTime()
+    );
   }, [data, result]);
 
   console.log(programs);
@@ -43,7 +46,7 @@ const ProgrammePage = ({ data }: PageQuery<GatsbyTypes.ProgramsPageQuery>) => {
           <Text>{it.description}</Text>
         </Box>
       ))}
-      <Button onClick={() => execute()}>Hae uuvet ohjelmat</Button>
+      {/* <Button onClick={() => execute()}>Hae uuvet ohjelmat</Button> */}
       {/* <Text>Malta tovi, tarkempi ohjelmisto päivittyy tänne pian:)</Text> */}
       <Section>
         <Heading as="h2" mb="5">
