@@ -1,5 +1,9 @@
 import sanityConfig from "./sanity.config.json";
 
+require("dotenv").config({
+  path: `.env`,
+});
+
 module.exports = {
   siteMetadata: {
     title: `Cottage Flow`,
